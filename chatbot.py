@@ -112,7 +112,7 @@ def get_response(user_question: str, df: pd.DataFrame, vectorizer, faq_matrix):
 
 
 def main():
-    df = load_faq(FAQ_PATH)
+    df = load_faq(faq.tsv)
     vectorizer, faq_matrix = build_index(df)
 
     print("=" * 65)
