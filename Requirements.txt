@@ -4,3 +4,7 @@ pandas
 numpy
 scikit-learn
 flask
+sentence-transformers
+scikit-learn
+pandas
+numpy
