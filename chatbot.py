@@ -34,9 +34,8 @@ def load_faq(path: str) -> pd.DataFrame:
 def build_index(df: pd.DataFrame):
     questions = df["question"].to_list()
     vectorizer = TfidfVectorizer(
-    lowercase=True,
-    ngram_range=(1,3),
-    analyzer="word"
+    ngram_range=(1,2),
+    lowercase=True
 )
     faq_matrix = vectorizer.fit_transform(questions)
     return vectorizer, faq_matrix
