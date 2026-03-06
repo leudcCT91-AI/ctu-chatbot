@@ -33,10 +33,28 @@ def load_faq(path: str) -> pd.DataFrame:
 
 def build_index(df: pd.DataFrame):
     questions = df["question"].to_list()
-    vectorizer = TfidfVectorizer(lowercase=True, ngram_range=(1, 2))
+    vectorizer = TfidfVectorizer(
+    lowercase=True,
+    ngram_range=(1,3),
+    analyzer="word"
+)
     faq_matrix = vectorizer.fit_transform(questions)
     return vectorizer, faq_matrix
+SYNONYMS = {
+    "cntt": "công nghệ thông tin",
+    "it": "công nghệ thông tin",
+    "qtkd": "quản trị kinh doanh",
+    "ktpm": "kỹ thuật phần mềm",
+    "kt": "kế toán",
+    "tcnh": "tài chính ngân hàng",
+    "nn anh": "ngôn ngữ anh",
+}
 
+def normalize_text(text):
+    t = text.lower()
+    for k, v in SYNONYMS.items():
+        t = t.replace(k, v)
+    return t
 
 def guess_major(text: str):
     t = text.lower()
@@ -57,7 +75,7 @@ def guess_major(text: str):
 
 
 def get_response(user_question: str, df: pd.DataFrame, vectorizer, faq_matrix):
-    user_question = user_question.strip()
+    user_question = normalize_text(user_question.strip())
     if not user_question:
         return "Bạn nhập câu hỏi giúp mình nhé.", []
 
@@ -67,7 +85,6 @@ def get_response(user_question: str, df: pd.DataFrame, vectorizer, faq_matrix):
     best_idx = int(np.argmax(sims))
     best_score = float(sims[best_idx])
 
-    # Top-3 gợi ý gần giống (trừ câu best để khỏi lặp)
     raw_top = topk_indices(sims, TOPK + 1)
     top_idx = [i for i in raw_top if i != best_idx][:TOPK]
     suggestions = [str(df.iloc[i]["question"]) for i in top_idx]
