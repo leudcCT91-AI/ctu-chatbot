@@ -1,5 +1,8 @@
 import streamlit as st
-from chatbot import get_response
+from chatbot import get_response, load_faq
+
+# load dữ liệu FAQ
+df, vectorizer, faq_matrix = load_faq()
 
 st.title("🎓 CTU Chatbot")
 
