@@ -48,7 +48,14 @@ SYNONYMS = {
     "tcnh": "tài chính ngân hàng",
     "nn anh": "ngôn ngữ anh",
 }
-
+SYNONYMS = {
+    "ctu": "đại học cần thơ",
+    "đh cần thơ": "đại học cần thơ",
+    "đhct": "đại học cần thơ",
+    "bao nhiêu điểm": "điểm chuẩn",
+    "lấy bao nhiêu điểm": "điểm chuẩn",
+    "điểm trúng tuyển": "điểm chuẩn",
+}
 def normalize_text(text):
     t = text.lower()
     for k, v in SYNONYMS.items():
